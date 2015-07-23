@@ -39,13 +39,15 @@ public class SCMain {
 	 */
 	public static void main(String[] args) {
 
-		File fileUsr = new File("/usr/bin");
-		if (fileUsr.isDirectory()) {
-			for (File file : fileUsr.listFiles()) {
-				if (file.isFile() && file.canRead())
-					System.out.println(String.format("Hash MD5 for:%s is %s", file.getName(), MD5.getMD5CheckSum(file)));
-			}
-		}
+//		File fileUsr = new File("/usr/bin");
+//		if (fileUsr.isDirectory()) {
+//			for (File file : fileUsr.listFiles()) {
+//				if (file.isFile() && file.canRead())
+//					System.out.println(String.format("Hash MD5 for:%s is %s", file.getName(), MD5.getMD5CheckSum(file)));
+//			}
+//		}		
+		System.out.println(String.format("Hash MD5 for:JAVA is %s", MD5.getMD5CheckSum("JAVA")));
+//		/52bd6066d02f5a39e1c624acfe3ec112
 
 	}
 
