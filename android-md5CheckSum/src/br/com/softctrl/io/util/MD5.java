@@ -2,6 +2,7 @@ package br.com.softctrl.io.util;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
@@ -41,6 +42,7 @@ SOFTWARE.
 public final class MD5 {
 
 	private static final String MD_5 = "MD5";
+	private static final String UTF_8 = "UTF-8";
 	private static final String _02X = "%02x";
 
 	/**
@@ -51,12 +53,21 @@ public final class MD5 {
 	public static String getMD5CheckSum(File file) {
 		StringBuilder hashMD5 = new StringBuilder();
 		try {
-			InputStream is = new FileInputStream(file);
+			hashMD5.append(getMD5CheckSum(new FileInputStream(file)));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return hashMD5.toString();
+	}
+
+	public static String getMD5CheckSum(InputStream inputStream) {
+		StringBuilder hashMD5 = new StringBuilder();
+		try {
 			MessageDigest md5 = MessageDigest.getInstance(MD_5);
 
 			byte[] buffer = new byte[1024];
 			int count;
-			while ((count = is.read(buffer)) > 0) {
+			while ((count = inputStream.read(buffer)) > 0) {
 				md5.update(buffer, 0, count);
 			}
 
@@ -64,7 +75,7 @@ public final class MD5 {
 			for (byte b : digest) {
 				hashMD5.append(String.format(_02X, b));
 			}
-			is.close();
+			inputStream.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
@@ -84,7 +95,7 @@ public final class MD5 {
 		StringBuilder hashMD5 = new StringBuilder();
 		try {
 			MessageDigest md5 = MessageDigest.getInstance(MD_5);
-			byte[] digest = md5.digest(value.getBytes("UTF-8"));
+			byte[] digest = md5.digest(value.getBytes(UTF_8));
 			for (byte b : digest) {
 				hashMD5.append(String.format(_02X, b));
 			}
