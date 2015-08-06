@@ -5,9 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -42,7 +40,6 @@ SOFTWARE.
 public final class MD5 {
 
 	private static final String MD_5 = "MD5";
-	private static final String UTF_8 = "UTF-8";
 	private static final String _02X = "%02x";
 
 	/**
@@ -95,13 +92,11 @@ public final class MD5 {
 		StringBuilder hashMD5 = new StringBuilder();
 		try {
 			MessageDigest md5 = MessageDigest.getInstance(MD_5);
-			byte[] digest = md5.digest(value.getBytes(UTF_8));
+			byte[] digest = md5.digest(value.getBytes(StandardCharsets.UTF_8));
 			for (byte b : digest) {
 				hashMD5.append(String.format(_02X, b));
 			}
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return hashMD5.toString();
